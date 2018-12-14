@@ -1,0 +1,31 @@
+{
+  "name": "@dappnode/dappnode-nft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "scripts/test.sh",
+    "test:gas": "GAS_REPORTER=true npm test",
+    "coverage": "scripts/coverage.sh",
+    "compile": "truffle compile"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-bignumber": "^3.0.0",
+    "coveralls": "^3.0.2",
+    "ethjs-abi": "^0.2.1",
+    "ganache-cli": "^6.2.3",
+    "solidity-coverage": "^0.5.11",
+    "solium": "^1.1.8",
+    "truffle": "^4.1.14",
+    "web3-utils": "^1.0.0-beta.37"
+  },
+  "dependencies": {
+    "eth-gas-reporter": "^0.1.12"
+  }
+}

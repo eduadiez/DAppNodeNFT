@@ -1,15 +1,13 @@
 pragma solidity ^0.4.24;
 
-import "./ERC721Metadata.sol";
-import "./ERC721Enumerable.sol";
-
+import "./ERC721.sol";
 
 /**
  * @title DAppNodeNFT
  */
-contract DAppNodeNFT is ERC721Metadata, ERC721Enumerable {
+contract DAppNodeNFT is ERC721 {
 
-    constructor () public ERC721Metadata("TestNFT", "TestNFT"){}
+    constructor () public ERC721("TestNFT", "TestNFT"){}
 
     function mint(address to, uint256 tokenId) public {
         _mint(to, tokenId);

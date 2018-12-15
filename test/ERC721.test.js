@@ -2,16 +2,15 @@ const shouldFail = require('./helpers/shouldFail');
 const { shouldBehaveLikeERC721 } = require('./ERC721.behavior');
 const { shouldSupportInterfaces } = require('./SupportsInterface.behavior');
 
-const ERC721MetadataMock = artifacts.require('ERC721MetadataMock.sol');
+
+const DAppNodeNFT = artifacts.require('DAppNodeNFT.sol');
 
 require('./helpers/setup');
 
-contract('ERC721Metadata', function ([
-  creator,
-  ...accounts
-]) {
-  const name = 'Non Fungible Token';
-  const symbol = 'NFT';
+contract('DAppNodeNFT', function ([_, creator, ...accounts]) {
+
+  const name = 'TestNFT';
+  const symbol = 'TestNFT';
   const firstTokenId = 100;
   const secondTokenId = 200;
   const thirdTokenId = 300;
@@ -27,7 +26,7 @@ contract('ERC721Metadata', function ([
   ] = accounts;
 
   beforeEach(async function () {
-    this.token = await ERC721MetadataMock.new(name, symbol, { from: creator });
+    this.token = await DAppNodeNFT.new({ from: creator });
   });
 
   describe('like a Metadata ERC721', function () {
@@ -152,9 +151,7 @@ contract('ERC721Metadata', function ([
     
   });
 
-
-
-  shouldBehaveLikeERC721(creator, minter, accounts);
+  shouldBehaveLikeERC721(creator, creator, accounts);
 
   shouldSupportInterfaces([
     'ERC165',

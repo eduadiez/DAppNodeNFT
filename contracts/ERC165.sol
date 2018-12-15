@@ -1,13 +1,11 @@
 pragma solidity ^0.4.24;
 
-import "./interfaces/IERC165.sol";
-
 /**
  * @title ERC165
  * @author Matt Condon (@shrugs)
  * @dev Implements ERC165 using a lookup table.
  */
-contract ERC165 is IERC165 {
+contract ERC165 {
     bytes4 private constant _InterfaceId_ERC165 = 0x01ffc9a7;
     /**
      * 0x01ffc9a7 ===

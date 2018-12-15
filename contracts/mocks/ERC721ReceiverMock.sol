@@ -1,8 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "../interfaces/IERC721Receiver.sol";
-
-contract ERC721ReceiverMock is IERC721Receiver {
+contract ERC721ReceiverMock {
     bytes4 private _retval;
     bool private _reverts;
 

@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 /**
  * @title ERC721 token receiver interface
  * @dev Interface for any contract that wants to support safeTransfers
- * from ERC721 asset contracts. 
+ * from ERC721 asset contracts.
  * Note: the ERC-165 identifier for this interface is 0x150b7a02.
  */
 interface IERC721Receiver {

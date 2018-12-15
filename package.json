@@ -10,7 +10,7 @@
     "test": "scripts/test.sh",
     "test:gas": "GAS_REPORTER=true npm test",
     "coverage": "scripts/coverage.sh",
-    "compile": "truffle compile"
+    "compile": "npx aragon contracts compile --all"
   },
   "author": "",
   "license": "GPL-3.0",

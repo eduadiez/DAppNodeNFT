@@ -10,10 +10,10 @@ import "./ERC165.sol";
  * @dev see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
  */
 contract ERC721 is ERC165 {
-    using SafeMath for uint256; 
+    using SafeMath for uint256;
     using Address for address;
 
-    /** 
+    /**
     *   @dev This emits when ownership of any NFT changes by any mechanism.
     *   This event emits when NFTs are created (`from` == 0) and destroyed
     *   (`to` == 0). Exception: during contract creation, any number of NFTs
@@ -22,7 +22,7 @@ contract ERC721 is ERC165 {
     */
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
 
-    /** 
+    /**
     *   @dev This emits when the approved address for an NFT is changed or
     *   reaffirmed. The zero address indicates there is no approved address.
     *   When a Transfer event emits, this also indicates that the approved
@@ -282,7 +282,7 @@ contract ERC721 is ERC165 {
         require(index < totalSupply());
         return _allTokens[index];
     }
-    
+
     /**
      * @dev Gets the balance of the specified address
      * @param owner address to query the balance of
@@ -292,7 +292,7 @@ contract ERC721 is ERC165 {
         require(owner != address(0));
         return _ownedTokensCount[owner];
     }
-    
+
     /**
      * @dev Transfers the ownership of a given token ID to another address
      * Usage of this method is discouraged, use `safeTransferFrom` whenever possible
@@ -417,7 +417,7 @@ contract ERC721 is ERC165 {
         address owner = _tokenOwner[tokenId];
         require(owner != address(0));
         return owner;
-    } 
+    }
 
     /**
      * @dev Internal function to add a token ID to the list of a given address
@@ -493,7 +493,7 @@ contract ERC721 is ERC165 {
 
         /**
      * @dev Gets the list of token IDs of the requested owner
-     * @param owner address owning the tokens 
+     * @param owner address owning the tokens
      * @return uint256[] List of token IDs owned by the requested address
      */
     function _tokensOfOwner(address owner) internal view returns (uint256[] storage) {

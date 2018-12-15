@@ -1,13 +1,18 @@
 pragma solidity ^0.4.24;
 
 import "./ERC721.sol";
+import "@aragon/os/contracts/apps/AragonApp.sol";
 
 /**
  * @title DAppNodeNFT
  */
-contract DAppNodeNFT is ERC721 {
+contract DAppNodeNFT is ERC721, AragonApp {
 
     constructor () public ERC721("TestNFT", "TestNFT"){}
+
+    function initialize() onlyInit {
+      initialized();
+    }
 
     function mint(address to, uint256 tokenId) public {
         _mint(to, tokenId);

@@ -40,9 +40,6 @@ contract ERC721 is ERC165 {
     // which can be also obtained as `IERC721Receiver(0).onERC721Received.selector`
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
-    // Mapping from owner to number of owned token
-    mapping (address => uint256) private _ownedTokensCount;
-
     // Mapping from token ID to owner
     mapping (uint256 => address) private _tokenOwner;
 
@@ -290,7 +287,7 @@ contract ERC721 is ERC165 {
      */
     function _balanceOf(address owner) internal view returns (uint256) {
         require(owner != address(0));
-        return _ownedTokensCount[owner];
+        return _ownedTokens[owner].length;
     }
 
     /**
@@ -432,7 +429,6 @@ contract ERC721 is ERC165 {
         uint256 length = _ownedTokens[to].length;
 
         _tokenOwner[tokenId] = to;
-        _ownedTokensCount[to] = _ownedTokensCount[to].add(1);
         _ownedTokens[to].push(tokenId);
         _ownedTokensIndex[tokenId] = length;
         _allTokensIndex[tokenId] = _allTokens.length;
@@ -470,7 +466,6 @@ contract ERC721 is ERC165 {
      */
     function _removeTokenFrom(address from, uint256 tokenId) internal {
         require(_ownerOf(tokenId) == from);
-        _ownedTokensCount[from] = _ownedTokensCount[from].sub(1);
         _tokenOwner[tokenId] = address(0);
 
         // To prevent a gap in the array, we store the last token in the index of the token to delete, and

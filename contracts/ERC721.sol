@@ -103,7 +103,8 @@ contract ERC721 is ERC165 {
      *     bytes4(keccak256('tokenURI(uint256)'))
      */
 
-    constructor (string name, string symbol) public {
+    function configureToken(string name, string symbol) internal {
+        assert(bytes(_name).length == 0);
 
         _name = name;
         _symbol = symbol;

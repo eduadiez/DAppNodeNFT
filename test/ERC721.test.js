@@ -98,7 +98,7 @@ contract('DAppNodeNFT', function ([_, creator, ...accounts]) {
         });
       });
     });
-    
+
     describe('metadata', function () {
       const sampleUri = 'mock://mytoken';
 
@@ -142,13 +142,12 @@ contract('DAppNodeNFT', function ([_, creator, ...accounts]) {
         tokenIds[1].should.be.bignumber.equal(secondTokenId);
       });
     });
-  
+
     describe('totalSupply', function () {
       it('returns total token supply', async function () {
         (await this.token.totalSupply()).should.be.bignumber.equal(2);
       });
     });
-    
   });
 
   shouldBehaveLikeERC721(creator, creator, accounts);

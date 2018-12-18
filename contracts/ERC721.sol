@@ -1,17 +1,17 @@
 pragma solidity ^0.4.24;
 
+
+import "@aragon/os/contracts/lib/math/SafeMath.sol";
+import "@aragon/os/contracts/common/IsContract.sol";
 import "./IERC721Receiver.sol";
-import "./math/SafeMath.sol";
-import "./utils/Address.sol";
 import "./ERC165.sol";
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
  */
-contract ERC721 is ERC165 {
+contract ERC721 is ERC165, IsContract {
     using SafeMath for uint256;
-    using Address for address;
 
     /**
     *   @dev This emits when ownership of any NFT changes by any mechanism.
@@ -506,7 +506,7 @@ contract ERC721 is ERC165 {
      * @return whether the call correctly returned the expected magic value
      */
     function _checkOnERC721Received(address from, address to, uint256 tokenId, bytes _data) internal returns (bool) {
-        if (!to.isContract()) {
+        if (!isContract(to)) {
             return true;
         }
 

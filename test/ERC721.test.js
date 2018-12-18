@@ -3,14 +3,14 @@ const { shouldBehaveLikeERC721 } = require('./ERC721.behavior');
 const { shouldSupportInterfaces } = require('./SupportsInterface.behavior');
 
 
-const DAppNodeNFT = artifacts.require('DAppNodeNFT.sol');
+const AragonNFT = artifacts.require('AragonNFT.sol');
 
 require('./helpers/setup');
 
-contract('DAppNodeNFT', function ([_, creator, ...accounts]) {
+contract('AragonNFT', function ([_, creator, ...accounts]) {
 
-  const name = 'TestNFT';
-  const symbol = 'TestNFT';
+  const name = 'AragonNFT';
+  const symbol = 'AragonNFT';
   const firstTokenId = 100;
   const secondTokenId = 200;
   const thirdTokenId = 300;
@@ -26,7 +26,8 @@ contract('DAppNodeNFT', function ([_, creator, ...accounts]) {
   ] = accounts;
 
   beforeEach(async function () {
-    this.token = await DAppNodeNFT.new({ from: creator });
+    this.token = await AragonNFT.new({ from: creator });
+    this.token.initialize(name, symbol);
   });
 
   describe('like a Metadata ERC721', function () {

@@ -595,11 +595,6 @@ function shouldBehaveLikeERC721 (
       });
 
       describe('when the given token ID was not tracked by this contract', function () {
-        it('reverts if try to remove', async function () {
-          await shouldFail.reverting(
-            this.token.removeTokenFrom(creator, unknownTokenId)
-          );
-        });
         it('reverts', async function () {
           await shouldFail.reverting(
             this.token.burn(unknownTokenId, { from: creator })

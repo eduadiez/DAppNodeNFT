@@ -70,36 +70,6 @@ contract('AragonNFT', function ([_, creator, ...accounts]) {
       });
     });
 
-    describe('removeTokenFrom', function () {
-      it('reverts if the correct owner is not passed', async function () {
-        await shouldFail.reverting(
-          this.token.removeTokenFrom(anyone, firstTokenId, { from: owner })
-        );
-      });
-
-      context('once removed', function () {
-        beforeEach(async function () {
-          await this.token.removeTokenFrom(owner, firstTokenId, { from: owner });
-        });
-
-        it('has been removed', async function () {
-          await shouldFail.reverting(this.token.tokenOfOwnerByIndex(owner, 1));
-        });
-
-        it('adjusts token list', async function () {
-          (await this.token.tokenOfOwnerByIndex(owner, 0)).toNumber().should.be.equal(secondTokenId);
-        });
-
-        it('adjusts owner count', async function () {
-          (await this.token.balanceOf(owner)).toNumber().should.be.equal(1);
-        });
-
-        it('does not adjust supply', async function () {
-          (await this.token.totalSupply()).toNumber().should.be.equal(2);
-        });
-      });
-    });
-
     describe('metadata', function () {
       const sampleUri = 'mock://mytoken';
 

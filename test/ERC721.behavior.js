@@ -20,8 +20,8 @@ function shouldBehaveLikeERC721 (
 
   describe('like an ERC721', function () {
     beforeEach(async function () {
-      await this.token.mint(owner, firstTokenId, { from: minter });
-      await this.token.mint(owner, secondTokenId, { from: minter });
+      await this.aragonnft.mint(owner, firstTokenId, { from: minter });
+      await this.aragonnft.mint(owner, secondTokenId, { from: minter });
       this.toWhom = anyone; // default to anyone for toWhom in context-dependent tests
     });
 
@@ -30,16 +30,16 @@ function shouldBehaveLikeERC721 (
 
       describe('when successful', function () {
         beforeEach(async function () {
-          const result = await this.token.mint(newOwner, thirdTokenId, { from: minter });
+          const result = await this.aragonnft.mint(newOwner, thirdTokenId, { from: minter });
           logs = result.logs;
         });
 
         it('assigns the token to the new owner', async function () {
-          (await this.token.ownerOf(thirdTokenId)).should.be.equal(newOwner);
+          (await this.aragonnft.ownerOf(thirdTokenId)).should.be.equal(newOwner);
         });
 
         it('increases the balance of its owner', async function () {
-          (await this.token.balanceOf(newOwner)).should.be.bignumber.equal(1);
+          (await this.aragonnft.balanceOf(newOwner)).should.be.bignumber.equal(1);
         });
 
         it('emits a transfer and minted event', async function () {
@@ -53,13 +53,13 @@ function shouldBehaveLikeERC721 (
 
       describe('when the given owner address is the zero address', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.mint(ZERO_ADDRESS, thirdTokenId, { from: minter }));
+          await shouldFail.reverting(this.aragonnft.mint(ZERO_ADDRESS, thirdTokenId, { from: minter }));
         });
       });
 
       describe('when the given token ID was already tracked by this contract', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.mint(owner, firstTokenId, { from: minter }));
+          await shouldFail.reverting(this.aragonnft.mint(owner, firstTokenId, { from: minter }));
         });
       });
     });
@@ -69,7 +69,7 @@ function shouldBehaveLikeERC721 (
         const tokenId = firstTokenId;
 
         it('returns the owner of the given token ID', async function () {
-          (await this.token.ownerOf(tokenId)).should.be.equal(owner);
+          (await this.aragonnft.ownerOf(tokenId)).should.be.equal(owner);
         });
       });
 
@@ -77,7 +77,7 @@ function shouldBehaveLikeERC721 (
         const tokenId = unknownTokenId;
 
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.ownerOf(tokenId));
+          await shouldFail.reverting(this.aragonnft.ownerOf(tokenId));
         });
       });
     });
@@ -86,19 +86,19 @@ function shouldBehaveLikeERC721 (
     describe('balanceOf', function () {
       context('when the given address owns some tokens', function () {
         it('returns the amount of tokens owned by the given address', async function () {
-          (await this.token.balanceOf(owner)).should.be.bignumber.equal(2);
+          (await this.aragonnft.balanceOf(owner)).should.be.bignumber.equal(2);
         });
       });
 
       context('when the given address does not own any tokens', function () {
         it('returns 0', async function () {
-          (await this.token.balanceOf(anyone)).should.be.bignumber.equal(0);
+          (await this.aragonnft.balanceOf(anyone)).should.be.bignumber.equal(0);
         });
       });
 
       context('when querying the zero address', function () {
         it('throws', async function () {
-          await shouldFail.reverting(this.token.balanceOf(0));
+          await shouldFail.reverting(this.aragonnft.balanceOf(0));
         });
       });
     });
@@ -110,13 +110,13 @@ function shouldBehaveLikeERC721 (
 
       const itClearsApproval = function () {
         it('clears approval for the token', async function () {
-          (await this.token.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
+          (await this.aragonnft.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
         });
       };
 
       const itApproves = function (address) {
         it('sets the approval for the target address', async function () {
-          (await this.token.getApproved(tokenId)).should.be.equal(address);
+          (await this.aragonnft.getApproved(tokenId)).should.be.equal(address);
         });
       };
 
@@ -133,7 +133,7 @@ function shouldBehaveLikeERC721 (
       context('when clearing approval', function () {
         context('when there was no prior approval', function () {
           beforeEach(async function () {
-            ({ logs } = await this.token.approve(ZERO_ADDRESS, tokenId, { from: owner }));
+            ({ logs } = await this.aragonnft.approve(ZERO_ADDRESS, tokenId, { from: owner }));
           });
 
           itClearsApproval();
@@ -142,8 +142,8 @@ function shouldBehaveLikeERC721 (
 
         context('when there was a prior approval', function () {
           beforeEach(async function () {
-            await this.token.approve(approved, tokenId, { from: owner });
-            ({ logs } = await this.token.approve(ZERO_ADDRESS, tokenId, { from: owner }));
+            await this.aragonnft.approve(approved, tokenId, { from: owner });
+            ({ logs } = await this.aragonnft.approve(ZERO_ADDRESS, tokenId, { from: owner }));
           });
 
           itClearsApproval();
@@ -154,7 +154,7 @@ function shouldBehaveLikeERC721 (
       context('when approving a non-zero address', function () {
         context('when there was no prior approval', function () {
           beforeEach(async function () {
-            ({ logs } = await this.token.approve(approved, tokenId, { from: owner }));
+            ({ logs } = await this.aragonnft.approve(approved, tokenId, { from: owner }));
           });
 
           itApproves(approved);
@@ -163,8 +163,8 @@ function shouldBehaveLikeERC721 (
 
         context('when there was a prior approval to the same address', function () {
           beforeEach(async function () {
-            await this.token.approve(approved, tokenId, { from: owner });
-            ({ logs } = await this.token.approve(approved, tokenId, { from: owner }));
+            await this.aragonnft.approve(approved, tokenId, { from: owner });
+            ({ logs } = await this.aragonnft.approve(approved, tokenId, { from: owner }));
           });
 
           itApproves(approved);
@@ -173,8 +173,8 @@ function shouldBehaveLikeERC721 (
 
         context('when there was a prior approval to a different address', function () {
           beforeEach(async function () {
-            await this.token.approve(anotherApproved, tokenId, { from: owner });
-            ({ logs } = await this.token.approve(anotherApproved, tokenId, { from: owner }));
+            await this.aragonnft.approve(anotherApproved, tokenId, { from: owner });
+            ({ logs } = await this.aragonnft.approve(anotherApproved, tokenId, { from: owner }));
           });
 
           itApproves(anotherApproved);
@@ -185,28 +185,28 @@ function shouldBehaveLikeERC721 (
       context('when the address that receives the approval is the owner', function () {
         it('reverts', async function () {
           await shouldFail.reverting(
-            this.token.approve(owner, tokenId, { from: owner })
+            this.aragonnft.approve(owner, tokenId, { from: owner })
           );
         });
       });
 
       context('when the sender does not own the given token ID', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.approve(approved, tokenId, { from: anyone }));
+          await shouldFail.reverting(this.aragonnft.approve(approved, tokenId, { from: anyone }));
         });
       });
 
       context('when the sender is approved for the given token ID', function () {
         it('reverts', async function () {
-          await this.token.approve(approved, tokenId, { from: owner });
-          await shouldFail.reverting(this.token.approve(anotherApproved, tokenId, { from: approved }));
+          await this.aragonnft.approve(approved, tokenId, { from: owner });
+          await shouldFail.reverting(this.aragonnft.approve(anotherApproved, tokenId, { from: approved }));
         });
       });
 
       context('when the sender is an operator', function () {
         beforeEach(async function () {
-          await this.token.setApprovalForAll(operator, true, { from: owner });
-          ({ logs } = await this.token.approve(approved, tokenId, { from: operator }));
+          await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
+          ({ logs } = await this.aragonnft.approve(approved, tokenId, { from: operator }));
         });
 
         itApproves(approved);
@@ -215,13 +215,13 @@ function shouldBehaveLikeERC721 (
 
       context('when the given token ID does not exist', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.approve(approved, unknownTokenId, { from: operator }));
+          await shouldFail.reverting(this.aragonnft.approve(approved, unknownTokenId, { from: operator }));
         });
       });
 
       context('getApproved', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.getApproved(unknownTokenId));
+          await shouldFail.reverting(this.aragonnft.getApproved(unknownTokenId));
         });
       });
     });
@@ -230,13 +230,13 @@ function shouldBehaveLikeERC721 (
       context('when the operator willing to approve is not the owner', function () {
         context('when there is no operator approval set by the sender', function () {
           it('approves the operator', async function () {
-            await this.token.setApprovalForAll(operator, true, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
-            (await this.token.isApprovedForAll(owner, operator)).should.equal(true);
+            (await this.aragonnft.isApprovedForAll(owner, operator)).should.equal(true);
           });
 
           it('emits an approval event', async function () {
-            const { logs } = await this.token.setApprovalForAll(operator, true, { from: owner });
+            const { logs } = await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
             expectEvent.inLogs(logs, 'ApprovalForAll', {
               _owner: owner,
@@ -248,17 +248,17 @@ function shouldBehaveLikeERC721 (
 
         context('when the operator was set as not approved', function () {
           beforeEach(async function () {
-            await this.token.setApprovalForAll(operator, false, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, false, { from: owner });
           });
 
           it('approves the operator', async function () {
-            await this.token.setApprovalForAll(operator, true, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
-            (await this.token.isApprovedForAll(owner, operator)).should.equal(true);
+            (await this.aragonnft.isApprovedForAll(owner, operator)).should.equal(true);
           });
 
           it('emits an approval event', async function () {
-            const { logs } = await this.token.setApprovalForAll(operator, true, { from: owner });
+            const { logs } = await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
             expectEvent.inLogs(logs, 'ApprovalForAll', {
               _owner: owner,
@@ -268,25 +268,25 @@ function shouldBehaveLikeERC721 (
           });
 
           it('can unset the operator approval', async function () {
-            await this.token.setApprovalForAll(operator, false, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, false, { from: owner });
 
-            (await this.token.isApprovedForAll(owner, operator)).should.equal(false);
+            (await this.aragonnft.isApprovedForAll(owner, operator)).should.equal(false);
           });
         });
 
         context('when the operator was already approved', function () {
           beforeEach(async function () {
-            await this.token.setApprovalForAll(operator, true, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
           });
 
           it('keeps the approval to the given address', async function () {
-            await this.token.setApprovalForAll(operator, true, { from: owner });
+            await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
-            (await this.token.isApprovedForAll(owner, operator)).should.equal(true);
+            (await this.aragonnft.isApprovedForAll(owner, operator)).should.equal(true);
           });
 
           it('emits an approval event', async function () {
-            const { logs } = await this.token.setApprovalForAll(operator, true, { from: owner });
+            const { logs } = await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
 
             expectEvent.inLogs(logs, 'ApprovalForAll', {
               _owner: owner,
@@ -299,7 +299,7 @@ function shouldBehaveLikeERC721 (
 
       context('when the operator is the owner', function () {
         it('reverts', async function () {
-          await shouldFail.reverting(this.token.setApprovalForAll(owner, true, { from: owner }));
+          await shouldFail.reverting(this.aragonnft.setApprovalForAll(owner, true, { from: owner }));
         });
       });
     });
@@ -311,17 +311,17 @@ function shouldBehaveLikeERC721 (
       let logs = null;
 
       beforeEach(async function () {
-        await this.token.approve(approved, tokenId, { from: owner });
-        await this.token.setApprovalForAll(operator, true, { from: owner });
+        await this.aragonnft.approve(approved, tokenId, { from: owner });
+        await this.aragonnft.setApprovalForAll(operator, true, { from: owner });
       });
 
       const transferWasSuccessful = function ({ owner, tokenId, approved }) {
         it('transfers the ownership of the given token ID to the given address', async function () {
-          (await this.token.ownerOf(tokenId)).should.be.equal(this.toWhom);
+          (await this.aragonnft.ownerOf(tokenId)).should.be.equal(this.toWhom);
         });
 
         it('clears the approval for the token ID', async function () {
-          (await this.token.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
+          (await this.aragonnft.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
         });
 
         if (approved) {
@@ -343,15 +343,15 @@ function shouldBehaveLikeERC721 (
         }
 
         it('adjusts owners balances', async function () {
-          (await this.token.balanceOf(owner)).should.be.bignumber.equal(1);
+          (await this.aragonnft.balanceOf(owner)).should.be.bignumber.equal(1);
         });
 
         it('adjusts owners tokens by index', async function () {
-          if (!this.token.tokenOfOwnerByIndex) return;
+          if (!this.aragonnft.tokenOfOwnerByIndex) return;
 
-          (await this.token.tokenOfOwnerByIndex(this.toWhom, 0)).toNumber().should.be.equal(tokenId);
+          (await this.aragonnft.tokenOfOwnerByIndex(this.toWhom, 0)).toNumber().should.be.equal(tokenId);
 
-          (await this.token.tokenOfOwnerByIndex(owner, 0)).toNumber().should.not.be.equal(tokenId);
+          (await this.aragonnft.tokenOfOwnerByIndex(owner, 0)).toNumber().should.not.be.equal(tokenId);
         });
       };
 
@@ -379,7 +379,7 @@ function shouldBehaveLikeERC721 (
 
         context('when called by the owner without an approved user', function () {
           beforeEach(async function () {
-            await this.token.approve(ZERO_ADDRESS, tokenId, { from: owner });
+            await this.aragonnft.approve(ZERO_ADDRESS, tokenId, { from: owner });
             ({ logs } = await transferFunction.call(this, owner, this.toWhom, tokenId, { from: operator }));
           });
           transferWasSuccessful({ owner, tokenId, approved: null });
@@ -391,11 +391,11 @@ function shouldBehaveLikeERC721 (
           });
 
           it('keeps ownership of the token', async function () {
-            (await this.token.ownerOf(tokenId)).should.be.equal(owner);
+            (await this.aragonnft.ownerOf(tokenId)).should.be.equal(owner);
           });
 
           it('clears the approval for the token ID', async function () {
-            (await this.token.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
+            (await this.aragonnft.getApproved(tokenId)).should.be.equal(ZERO_ADDRESS);
           });
 
           it('emits only a transfer event', async function () {
@@ -407,13 +407,13 @@ function shouldBehaveLikeERC721 (
           });
 
           it('keeps the owner balance', async function () {
-            (await this.token.balanceOf(owner)).should.be.bignumber.equal(2);
+            (await this.aragonnft.balanceOf(owner)).should.be.bignumber.equal(2);
           });
 
           it('keeps same tokens by index', async function () {
-            if (!this.token.tokenOfOwnerByIndex) return;
+            if (!this.aragonnft.tokenOfOwnerByIndex) return;
             const tokensListed = await Promise.all(
-              [0, 1].map(i => this.token.tokenOfOwnerByIndex(owner, i))
+              [0, 1].map(i => this.aragonnft.tokenOfOwnerByIndex(owner, i))
             );
             tokensListed.map(t => t.toNumber()).should.have.members([firstTokenId, secondTokenId]);
           });
@@ -449,14 +449,14 @@ function shouldBehaveLikeERC721 (
 
       describe('via transferFrom', function () {
         shouldTransferTokensByUsers(function (from, to, tokenId, opts) {
-          return this.token.transferFrom(from, to, tokenId, opts);
+          return this.aragonnft.transferFrom(from, to, tokenId, opts);
         });
       });
 
       describe('via safeTransferFrom', function () {
         const safeTransferFromWithData = function (from, to, tokenId, opts) {
           return send.transaction(
-            this.token,
+            this.aragonnft,
             'safeTransferFrom',
             'address,address,uint256,bytes',
             [from, to, tokenId, data],
@@ -465,7 +465,7 @@ function shouldBehaveLikeERC721 (
         };
 
         const safeTransferFromWithoutData = function (from, to, tokenId, opts) {
-          return this.token.safeTransferFrom(from, to, tokenId, opts);
+          return this.aragonnft.safeTransferFrom(from, to, tokenId, opts);
         };
 
         const shouldTransferSafely = function (transferFun, data) {
@@ -531,7 +531,7 @@ function shouldBehaveLikeERC721 (
           it('reverts', async function () {
             const invalidReceiver = await ERC721ReceiverMock.new('0x42', false);
             await shouldFail.reverting(
-              this.token.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
+              this.aragonnft.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
             );
           });
         });
@@ -540,16 +540,16 @@ function shouldBehaveLikeERC721 (
           it('reverts', async function () {
             const invalidReceiver = await ERC721ReceiverMock.new(RECEIVER_MAGIC_VALUE, true);
             await shouldFail.reverting(
-              this.token.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
+              this.aragonnft.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
             );
           });
         });
 
         describe('to a contract that does not implement the required function', function () {
           it('reverts', async function () {
-            const invalidReceiver = this.token;
+            const invalidReceiver = this.aragonnft;
             await shouldFail.reverting(
-              this.token.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
+              this.aragonnft.safeTransferFrom(owner, invalidReceiver.address, tokenId, { from: owner })
             );
           });
         });
@@ -562,13 +562,13 @@ function shouldBehaveLikeERC721 (
 
       describe('when successful', function () {
         beforeEach(async function () {
-          const result = await this.token.burn(tokenId, { from: owner });
+          const result = await this.aragonnft.burn(tokenId, { from: owner });
           logs = result.logs;
         });
 
         it('burns the given token ID and adjusts the balance of the owner', async function () {
-          await shouldFail.reverting(this.token.ownerOf(tokenId));
-          (await this.token.balanceOf(owner)).should.be.bignumber.equal(1);
+          await shouldFail.reverting(this.aragonnft.ownerOf(tokenId));
+          (await this.aragonnft.balanceOf(owner)).should.be.bignumber.equal(1);
         });
 
         it('emits a burn event', async function () {
@@ -582,14 +582,14 @@ function shouldBehaveLikeERC721 (
 
       describe('when there is a previous approval burned', function () {
         beforeEach(async function () {
-          await this.token.approve(approved, tokenId, { from: owner });
-          const result = await this.token.burn(tokenId, { from: owner });
+          await this.aragonnft.approve(approved, tokenId, { from: owner });
+          const result = await this.aragonnft.burn(tokenId, { from: owner });
           logs = result.logs;
         });
 
         context('getApproved', function () {
           it('reverts', async function () {
-            await shouldFail.reverting(this.token.getApproved(tokenId));
+            await shouldFail.reverting(this.aragonnft.getApproved(tokenId));
           });
         });
       });
@@ -597,7 +597,7 @@ function shouldBehaveLikeERC721 (
       describe('when the given token ID was not tracked by this contract', function () {
         it('reverts', async function () {
           await shouldFail.reverting(
-            this.token.burn(unknownTokenId, { from: creator })
+            this.aragonnft.burn(unknownTokenId, { from: creator })
           );
         });
       });

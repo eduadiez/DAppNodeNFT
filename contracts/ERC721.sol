@@ -102,6 +102,11 @@ contract ERC721 is ERC165, IsContract {
      *     bytes4(keccak256('tokenURI(uint256)'))
      */
 
+    bytes4 private constant _InterfaceId_ERC165 = 0x01ffc9a7;
+    /**
+     * 0x01ffc9a7 ===
+     *     bytes4(keccak256('supportsInterface(bytes4)'))
+     */
      
 
     function configureToken(string name, string symbol) internal {
@@ -112,6 +117,7 @@ contract ERC721 is ERC165, IsContract {
         _symbol = symbol;
 
         // register the supported interfaces to conform to ERC721 via ERC165
+        _registerInterface(_InterfaceId_ERC165);
         _registerInterface(_InterfaceId_ERC721);
         _registerInterface(_InterfaceId_ERC721Metadata);
         _registerInterface(_InterfaceId_ERC721Enumerable);

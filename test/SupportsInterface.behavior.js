@@ -30,7 +30,7 @@ const INTERFACE_IDS = {
 function shouldSupportInterfaces (interfaces = []) {
   describe('ERC165\'s supportsInterface(bytes4)', function () {
     beforeEach(function () {
-      this.thing = this.mock || this.token;
+      this.thing = this.mock || this.aragonnft;
     });
 
     for (const k of interfaces) {

@@ -20,7 +20,8 @@ contract AragonNFT is ERC721, AragonApp {
     bytes32 constant public BURN_ROLE = keccak256("BURN_ROLE");
 
     /**
-     * @dev Function to initialize the AragonApp
+     * @notice Function to initialize the AragonApp
+     * @dev it will revert if the name or symbol is not specified.
      * @param _name Token name
      * @param _symbol Token symbol
      */
@@ -33,8 +34,8 @@ contract AragonNFT is ERC721, AragonApp {
     }
     
     /**
-     * @dev Function to mint NFT tokens, only those who have the `MINT_ROLE` 
-     * persmission will be able to do it 
+     * @notice Mint `_tokenId` and give the ownership to  `_to` 
+     * @dev Only those who have the `MINT_ROLE` permission will be able to do it 
      * @param _to The address that will own the minted token
      * @param _tokenId uint256 ID of the token to be minted by the msg.sender
      */
@@ -43,8 +44,8 @@ contract AragonNFT is ERC721, AragonApp {
     }
 
     /**
-     * @dev Function to burn a specific NFT token, only those who have the `BURN_ROLE` 
-     * persmission will be able to do it 
+     * @notice Burn tokenId: `_tokenId`
+     * @dev Only those who have the `BURN_ROLE` persmission will be able to do it
      * Reverts if the token does not exist
      * @param _tokenId uint256 ID of the token being burned by the msg.sender
     */
@@ -54,8 +55,8 @@ contract AragonNFT is ERC721, AragonApp {
     }
 
     /**
-     * @dev Function to set the token URI for a given token, only those who have the `MINT_ROLE` 
-     * persmission will be able to do it
+     * @notice Set `_uri` for `_tokenId`, 
+     * @dev Only those who have the `MINT_ROLE` persmission will be able to do it
      * Reverts if the token ID does not exist
      * @param _tokenId uint256 ID of the token to set its URI
      * @param _uri string URI to assign
@@ -65,18 +66,19 @@ contract AragonNFT is ERC721, AragonApp {
     }
 
     /**
-     * @dev Function to clear current approval of a given token ID, only the owner of the token 
-     * can do it 
+     * @notice Clear current approval of `_tokenId` owned by `_owner`,
+     * @dev only the owner of the token can do it 
      * Reverts if the given address is not indeed the owner of the token
      * @param _owner owner of the token
      * @param _tokenId uint256 ID of the token to be transferred
      */
     function clearApproval(address _owner, uint256 _tokenId) public {
         require(msg.sender == _ownerOf(_tokenId));
-        _clearApproval(_owner, _tokenId);
+        _clearApproval(msg.sender, _tokenId);
     }
 
     /**
+     * @notice Returns whether `_tokenId` exists
      * @dev Returns whether the specified token exists
      * @param _tokenId uint256 ID of the token to query the existence of
      * @return whether the token exists
@@ -86,6 +88,7 @@ contract AragonNFT is ERC721, AragonApp {
     }
 
     /**
+     * @notice Gets the list of token IDs of the `_owner`
      * @dev Gets the list of token IDs of the requested owner
      * @param _owner address owning the tokens
      * @return uint256[] List of token IDs owned by the requested address

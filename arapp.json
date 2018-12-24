@@ -19,7 +19,8 @@
     "mainnet": {
       "registry": "0x314159265dd8dbb310642f98f50c066173c1259b",
       "appName": "aragonnft.open.aragonpm.eth",
-      "network": "mainnet"
+      "network": "mainnet",
+      "wsRPC": "ws://my.ethchain.dnp.dappnode.eth:8546"
     },
     "rinkeby-old": {
       "registry": "0xfbae32d1cde62858bc45f51efc8cc4fa1415447e",

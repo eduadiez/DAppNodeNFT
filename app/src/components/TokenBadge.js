@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import { SafeLink } from '@aragon/ui'
-import provideNetwork from '../provide-network'
+import { makeEtherscanBaseUrl } from '../utils'
 
 class TokenBadge extends React.PureComponent {
   render() {
     const { address, name, symbol, network } = this.props
+    let baseLink = makeEtherscanBaseUrl(network.type);
+
     return (
       <Main
         title={`${name} (${address})`}
-        href={`${network.etherscanBaseUrl}/token/${address}`}
+        href={`${baseLink}/token/${address}`}
       >
         <Label>
           <NameWrapper>
@@ -61,4 +63,4 @@ const Symbol = styled.span`
   margin-left: 5px;
 `
 
-export default provideNetwork(TokenBadge)
+export default TokenBadge

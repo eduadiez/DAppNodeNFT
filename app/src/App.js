@@ -113,7 +113,7 @@ class App extends React.Component {
 
   render() {
     const { sidepanelOpened } = this.state
-    const { app, tokenName, tokenSymbol, network, totalSupply, balances, transactions, tokens, proxyAddress, userAccount } = this.props
+    const { app, tokenName, tokenSymbol, network, totalSupply, transactions, proxyAddress } = this.props
 
     return (
       <PublicUrl.Provider url="./aragon-ui/">

@@ -3,14 +3,11 @@ import styled from 'styled-components'
 import {
     TableRow,
     TableCell,
-    ContextMenu,
-    ContextMenuItem,
-    IconAdd,
-    IconRemove,
-    Badge,
     SafeLink,
     theme,
 } from '@aragon/ui'
+
+import { makeEtherscanBaseUrl } from '../utils'
 
 class HolderRow extends React.Component {
     static defaultProps = {
@@ -38,7 +35,7 @@ class HolderRow extends React.Component {
 
         } = this.props
 
-        const canAssign = true
+        let baseLink = makeEtherscanBaseUrl(network.type);
 
         return (
             <TableRow>
@@ -48,7 +45,7 @@ class HolderRow extends React.Component {
                     </Owner>
                 </TableCell>
                 <TableCell align="right">
-                    <SafeLink href={`${network.etherscanBaseUrl}/token/${address}/?a=${id}`} target="_blank">
+                    <SafeLink href={`${baseLink}/token/${address}/?a=${id}`} target="_blank">
                         {id}
                     </SafeLink>
                 </TableCell>
@@ -57,9 +54,6 @@ class HolderRow extends React.Component {
     }
 }
 
-const ActionLabel = styled.span`
-  margin-left: 15px;
-`
 
 const Owner = styled.div`
   display: flex;
@@ -67,13 +61,6 @@ const Owner = styled.div`
   & > span:first-child {
     margin-right: 10px;
   }
-`
-
-const IconWrapper = styled.span`
-  display: flex;
-  align-content: center;
-  margin-top: -3px;
-  color: ${theme.textSecondary};
 `
 
 export default HolderRow

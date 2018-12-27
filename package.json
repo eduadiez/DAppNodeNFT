@@ -18,7 +18,7 @@
     "deploy:rinkeby": "truffle exec scripts/deploy.js --network rinkeby",
     "build": "npm run sync-assets && npm run build:app && npm run build:script",
     "build:app": "parcel build app/index.html -d dist/ --public-url '.' --no-cache",
-    "build:script": "parcel build app/script.js -d dist/ --no-cache",
+    "build:script": "parcel build app/src/script.js -d dist/ --no-cache",
     "sync-assets": "copy-aragon-ui-assets -n aragon-ui ./dist",
     "publish:rpc": "npm run compile && aragon publish --no-confirm=true \"$(npm run deploy:rpc | tail -n 1)\"",
     "publish:rinkeby:patch": "aragon apm publish patch --environment rinkeby --apm.ipfs.rpc http://my.ipfs.dnp.dappnode.eth:5001#default",
@@ -33,29 +33,31 @@
   "devDependencies": {
     "@aragon/os": "^4.0.1",
     "@aragon/test-helpers": "^1.0.1",
-    "@aragon/ui": "^0.16.0",
+    "@aragon/ui": "^0.27.0",
+    "@aragon/wrapper": "^3.0.0-beta.3",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.1.0",
+    "babel-plugin-styled-components": "^1.8.0",
     "chai": "^4.2.0",
     "chai-bignumber": "^3.0.0",
     "coveralls": "^3.0.2",
     "eth-gas-reporter": "^0.1.12",
     "ethjs-abi": "^0.2.1",
-    "ganache-cli": "^6.2.3",
+    "ganache-cli": "^6.2.5",
     "parcel-bundler": "^1.10.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.3.2",
     "solidity-coverage": "^0.5.11",
     "solium": "^1.1.8",
-    "styled-components": "^3.4.9",
+    "styled-components": "3.2.6",
     "truffle": "^4.1.14",
     "truffle-flattener": "^1.2.10",
-    "web3-utils": "^1.0.0-beta.37",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "babel-plugin-styled-components": "^1.8.0",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "web3-utils": "^1.0.0-beta.37"
   },
   "dependencies": {
-    "@aragon/client": "^1.1.0"
+    "@aragon/client": "^1.1.0",
+    "qrcode.react": "^0.9.0"
   }
 }

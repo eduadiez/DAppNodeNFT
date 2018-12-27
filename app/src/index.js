@@ -4,7 +4,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Aragon, { providers } from '@aragon/client'
 import App from './App'
-import { AppBar } from '@aragon/ui'
 
 class ConnectedApp extends React.Component {
   state = {
@@ -39,10 +38,11 @@ class ConnectedApp extends React.Component {
       this.setState({
         observable: app.state(),
       })
-      app.accounts().subscribe(accounts => {
-        this.setState({
-          userAccount: accounts[0],
-        })
+      app.accounts().subscribe(([userAccount]) => {
+        this.setState({ userAccount })
+      })
+      app.network().subscribe(network => {
+        this.setState({ network })
       })
     }
   }
@@ -52,8 +52,7 @@ class ConnectedApp extends React.Component {
   render() {
     return (
       <div>
-        <AppBar title="Aragon Non Fungible Token Dashboard" />
-         <App {...this.state} />
+        <App {...this.state} />
       </div>)
   }
 }

@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  nft-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nft-web-serve
+    ports:
+      - "3000:3000"
+    command: npm start

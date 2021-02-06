@@ -66,6 +66,16 @@ contract AragonNFT is ERC721, AragonApp {
     }
 
     /**
+     * @dev Internal function to set the base URI for all token IDs. It is
+     * automatically added as a prefix to the value returned in {tokenURI}.
+     *
+     * _Available since v2.5.0._
+     */
+    function setBaseURI(string memory baseURI) auth(MINT_ROLE) public {
+        _setBaseURI(baseURI);
+    }
+
+    /**
      * @notice Clear current approval of `_tokenId` owned by `_owner`,
      * @dev only the owner of the token can do it 
      * Reverts if the given address is not indeed the owner of the token

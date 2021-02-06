@@ -3,3 +3,9 @@ coverage
 build
 .cache
 dist
+.*
+node_modules
+
+#Hardhat files
+cache
+artifacts

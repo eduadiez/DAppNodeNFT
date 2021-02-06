@@ -5,6 +5,7 @@ import "@aragon/os/contracts/lib/math/SafeMath.sol";
 import "@aragon/os/contracts/common/IsContract.sol";
 import "./IERC721Receiver.sol";
 import "./ERC165.sol";
+import "./Strings.sol";
 
 /* solium-disable function-order */
 
@@ -107,8 +108,9 @@ contract ERC721 is ERC165, IsContract {
      * 0x01ffc9a7 ===
      *     bytes4(keccak256('supportsInterface(bytes4)'))
      */
-     
 
+    string private _baseURI;
+     
     function configureToken(string name, string symbol) internal {
 
         require(bytes(_name).length == 0 && bytes(_symbol).length == 0);
@@ -151,7 +153,15 @@ contract ERC721 is ERC165, IsContract {
      */
     function tokenURI(uint256 _tokenId) external view returns (string){
         require(_exists(_tokenId));
-        return _tokenURIs[_tokenId];
+        string memory _tokenURI = _tokenURIs[_tokenId];
+
+        // Even if there is a base URI, it is only appended to non-empty token-specific URIs
+        if (bytes(_tokenURI).length == 0) {
+            return string(abi.encodePacked(_baseURI, Strings.toString(_tokenId)));
+        } else {
+            // abi.encodePacked is being used to concatenate strings
+            return string(abi.encodePacked(_baseURI, _tokenURI));
+        }
     }
 
     /**
@@ -595,5 +605,26 @@ contract ERC721 is ERC165, IsContract {
         if (_tokenApprovals[_tokenId] != address(0)) {
             _tokenApprovals[_tokenId] = address(0);
         }
+    }
+
+    /**
+     * @dev Internal function to set the base URI for all token IDs. It is
+     * automatically added as a prefix to the value returned in {tokenURI}.
+     *
+     * _Available since v2.5.0._
+     */
+    function _setBaseURI(string memory baseURI) internal {
+        _baseURI = baseURI;
+    }
+
+    /**
+    * @dev Returns the base URI set via {_setBaseURI}. This will be
+    * automatically added as a preffix in {tokenURI} to each token's URI, when
+    * they are non-empty.
+    *
+    * _Available since v2.5.0._
+    */
+    function baseURI() external view returns (string memory) {
+        return _baseURI;
     }
 }
